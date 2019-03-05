@@ -36,3 +36,27 @@ git log #HEAD: working tree, master: default branch referenced by HEAD
 git log --graph #draw a graph made of commit parent relations
 git log --graph --oneline # make it short
 #optional fancy stuff alias prettylog='git log --full-history --all --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
+
+
+
+
+
+
+
+
+#####################   OPTIONAL path - detached HEAD state #####################
+git checkout $(git rev-parse HEAD)``
+cat <<EOF >text_file.txt
+This change won't be seen on any of the branches until we check it out explicitly.
+EOF
+git commit -a -m "Commit made in detached HEAD state - won't be seen among the commits of the branch graph"
+git log --oneline
+DETACHED_COMMIT_HASH=$(git rev-parse HEAD)
+git checkout master
+git log --oneline #the commit is not there
+git checkout $DETACHED_COMMIT_HASH -b master_with_lost_commit
+git log --onelins # the commit is here
+git checkout master
+
+#####################   OPTIONAL path - reflog #####################
+git reflog #see the movement of HEAD in chronological order, good for hunting down lost commits, recover resetted/deleted branches
