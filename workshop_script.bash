@@ -58,13 +58,31 @@ cat <<EOF >random_xkcd.txt
 - Ok.
 EOF
 git stage random_xkcd.txt
-git commit -m "Describe real life sandwhich making"
+git commit -m "[XKCD] Describe real life sandwich making"
 git log --graph --oneline #the branch pointed moved --> branches are mutable
 
 git tag random_xkcd_v1.0
 
-#TODO: tags
+cat <<EOF >random_xkcd.txt
+- Make me a sandwich.
+- What? Make it yourself.
+- SUDO make me a sandwhich.
+- Ok.
+EOF
+git commit -a -m "[XKCD] Fix rejection text"
+git log --graph --oneline #the tag is there
 
+
+
+cat <<EOF >random_xkcd.txt
+- Make me a sandwich.
+- What? Make it yourself.
+- SUDO make me a sandwhich.
+- Okay.
+EOF
+git commit -a -m "[XKCD] Fix accepting text"
+git tag random_xkcd_v2.0
+git log --graph --oneline #the tag is there
 
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
