@@ -1,11 +1,15 @@
 #!/usr/bin/bash
 
+set -exu
+
+#usage: bash workshop_script.bash
+
 #clean up repo
+TEST_REPO="${HOME}/workshops/bme-git-repo-test2"
 if [ -d "$TEST_REPO" ]; then
     rm -rf $TEST_REPO
 fi
 
-TEST_REPO="${HOME}/workshops/bme-git-repo-test2"
 
 #####################   PART 1 - Repo, Working directory, HEAD, stage/add, diff, commit, log  #####################
 #every directory can be a git repository
@@ -44,7 +48,7 @@ git log --graph --oneline # make it short
 
 
 
-#####################   PART 2 - branches  #####################
+#####################   PART 2 - branches, tags  #####################
 git checkout -b random_xkcd
 git log # HEAD now points to new branch
 cat <<EOF >random_xkcd.txt
@@ -55,7 +59,6 @@ cat <<EOF >random_xkcd.txt
 EOF
 git stage random_xkcd.txt
 git commit -m "Describe real life sandwhich making"
-
 
 
 #TODO: tags
@@ -71,7 +74,7 @@ git log --oneline
 DETACHED_COMMIT_HASH=$(git rev-parse HEAD)
 git checkout master
 git log --oneline #the commit is not there
-git checkout $DETACHED_COMMIT_HASH -b master_with_lost_commit
+git checkout $DETACHED_COMMIT_HASH -B master_with_lost_commit
 git log --oneline # the commit is here
 git checkout master
 
