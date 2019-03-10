@@ -1,12 +1,16 @@
 #!/usr/bin/bash
-GIT_DIR="${HOME}/workshops/bme-git-repo-test"
 
-#TODO: git config
+#clean up repo
+if [ -d "$TEST_REPO" ]; then
+    rm -rf $TEST_REPO
+fi
+
+TEST_REPO="${HOME}/workshops/bme-git-repo-test2"
 
 #####################   PART 1 - Repo, Working directory, HEAD, stage/add, diff, commit, log  #####################
 #every directory can be a git repository
-mkdir $GIT_DIR --parent
-cd $GIT_DIR || exit 1
+mkdir $TEST_REPO --parent
+cd $TEST_REPO || exit 1
 git init
 
 # Working tree: the currently checked out snapshot of the git repo
@@ -68,7 +72,7 @@ DETACHED_COMMIT_HASH=$(git rev-parse HEAD)
 git checkout master
 git log --oneline #the commit is not there
 git checkout $DETACHED_COMMIT_HASH -b master_with_lost_commit
-git log --onelins # the commit is here
+git log --oneline # the commit is here
 git checkout master
 
 #####################   OPTIONAL path - reflog #####################
