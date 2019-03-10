@@ -59,24 +59,26 @@ cat <<EOF >random_xkcd.txt
 EOF
 git stage random_xkcd.txt
 git commit -m "Describe real life sandwhich making"
+git log --graph --oneline #the branch pointed moved --> branches are mutable
 
+git tag random_xkcd_v1.0
 
 #TODO: tags
 
 
 #####################   OPTIONAL path - detached HEAD state #####################
-git checkout $(git rev-parse HEAD)
-cat <<EOF >text_file.txt
-This change won't be seen on any of the branches until we check it out explicitly.
-EOF
-git commit -a -m "Commit made in detached HEAD state - won't be seen among the commits of the branch graph"
-git log --oneline
-DETACHED_COMMIT_HASH=$(git rev-parse HEAD)
-git checkout master
-git log --oneline #the commit is not there
-git checkout $DETACHED_COMMIT_HASH -B master_with_lost_commit
-git log --oneline # the commit is here
-git checkout master
+#git checkout $(git rev-parse HEAD)
+#cat <<EOF >text_file.txt
+#This change won't be seen on any of the branches until we check it out explicitly.
+#EOF
+#git commit -a -m "Commit made in detached HEAD state - won't be seen among the commits of the branch graph"
+#git log --oneline
+#DETACHED_COMMIT_HASH=$(git rev-parse HEAD)
+#git checkout master
+#git log --oneline #the commit is not there
+#git checkout $DETACHED_COMMIT_HASH -B master_with_lost_commit
+#git log --oneline # the commit is here
+#git checkout master
 
 #####################   OPTIONAL path - reflog #####################
-git reflog #see the movement of HEAD in chronological order, good for hunting down lost commits, recover resetted/deleted branches
+#git reflog #see the movement of HEAD in chronological order, good for hunting down lost commits, recover resetted/deleted branches
