@@ -43,7 +43,7 @@ git commit --all --message='Make greeting more polite'
 #Check the revisions
 git log #HEAD: working tree, master: default branch referenced by HEAD
 git log --graph #draw a graph made of commit parent relations
-git log --graph --oneline # make it short
+git log --graph --oneline --all # make it short
 #optional fancy stuff alias prettylog='git log --full-history --all --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 
 
@@ -59,7 +59,7 @@ cat <<EOF >random_xkcd.txt
 EOF
 git stage random_xkcd.txt
 git commit -m "[XKCD] Describe real life sandwich making"
-git log --graph --oneline #the branch pointed moved --> branches are mutable
+git log --graph --oneline --all #the branch pointed moved --> branches are mutable
 
 git tag random_xkcd_v1.0
 
@@ -70,7 +70,7 @@ cat <<EOF >random_xkcd.txt
 - Ok.
 EOF
 git commit -a -m "[XKCD] Fix rejection text"
-git log --graph --oneline #the tag is there
+git log --graph --oneline --all #the tag is there
 
 
 
@@ -82,8 +82,18 @@ cat <<EOF >random_xkcd.txt
 EOF
 git commit -a -m "[XKCD] Fix accepting text"
 git tag random_xkcd_v2.0
-git log --graph --oneline #the tag is there
+git log --graph --oneline --all #the tag is there
 
+#go back to master branch
+git checkout master
+
+cat <<EOF >random_xkcd.txt
+Monkey tacos.
+EOF
+git add random_xkcd.txt
+git commit -a -m "[XKCD] Add random text. I'm so random."
+
+git log --graph --oneline --all
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
 #cat <<EOF >text_file.txt
