@@ -73,7 +73,6 @@ git commit -a -m "[XKCD] Fix rejection text"
 git log --graph --oneline --all #the tag is there
 
 
-
 cat <<EOF >random_xkcd.txt
 - Make me a sandwich.
 - What? Make it yourself.
@@ -87,13 +86,17 @@ git log --graph --oneline --all #the tag is there
 #go back to master branch
 git checkout master
 
-cat <<EOF >random_xkcd.txt
-Monkey tacos.
-EOF
-git add random_xkcd.txt
-git commit -a -m "[XKCD] Add random text. I'm so random."
 
-git log --graph --oneline --all
+
+#####################   OPTIONAL path - conflict on master branch #####################
+#cat <<EOF >random_xkcd.txt
+#Monkey tacos.
+#EOF
+#git add random_xkcd.txt
+#git commit -a -m "[XKCD] Add random text. I'm so random."
+
+#git log --graph --oneline --all
+
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
 #cat <<EOF >text_file.txt
