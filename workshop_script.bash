@@ -46,56 +46,59 @@ git log --graph #draw a graph made of commit parent relations
 git log --graph --oneline --all # make it short
 #optional fancy stuff alias prettylog='git log --full-history --all --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 
-
-
-#####################   PART 2 - branches, tags  #####################
-git checkout -b random_xkcd
-git log # HEAD now points to new branch
 cat <<EOF >random_xkcd.txt
-- Make me a sandwich.
-- No.
-- SUDO make me a sandwhich.
-- Ok.
+- Monkey tacos! I'm so random!
 EOF
 git stage random_xkcd.txt
-git commit -m "[XKCD] Describe real life sandwich making"
-git log --graph --oneline --all #the branch pointed moved --> branches are mutable
-
+git commit -m "[XKCD] Some random xkcd joke"
+git log --graph --oneline --all
 git tag random_xkcd_v1.0
+git log --graph --oneline --all
 
-cat <<EOF >random_xkcd.txt
-- Make me a sandwich.
-- What? Make it yourself.
-- SUDO make me a sandwhich.
-- Ok.
-EOF
-git commit -a -m "[XKCD] Fix rejection text"
-git log --graph --oneline --all #the tag is there
+#####################   PART 2 - branches, tags  #####################
+git checkout -b random_xkcd_improvement
+git log # HEAD now points to new branch
 
-
-cat <<EOF >random_xkcd.txt
+#append another joke
+cat <<EOF >>random_xkcd.txt
+----------------------------
 - Make me a sandwich.
 - What? Make it yourself.
 - SUDO make me a sandwhich.
 - Okay.
 EOF
-git commit -a -m "[XKCD] Fix accepting text"
-git tag random_xkcd_v2.0
-git log --graph --oneline --all #the tag is there
+git commit -a -m "[XKCD] Describe real life sandwich making"
+git log --graph --oneline --all #the branch pointed moved --> branches are mutable
+
+cat <<EOF >>random_xkcd.txt
+----------------------------
+int getRandomNumber()
+{
+  return 4;
+  //chosen by fair dice roll, guaranteed to be random
+}
+EOF
+git commit -a -m "[XKCD] add random number generator snippet"
+git log --graph --oneline --all
 
 #go back to master branch
 git checkout master
-
-
+cat <<EOF >text_file.txt
+Good day Git World!
+What a fine day to learn about git!
+Let's bring the changes from random_xkcd_improvement branch into master!
+EOF
+git commit -a -m "add text encouriging branch sync"
+#have a look at the the diverged branches
+git log --graph --oneline --all
 
 #####################   OPTIONAL path - conflict on master branch #####################
-#cat <<EOF >random_xkcd.txt
-#Monkey tacos.
+#git checkout master
+#cat <<EOF >>random_xkcd.txt
+#- 321645646546849889899684
 #EOF
-#git add random_xkcd.txt
-#git commit -a -m "[XKCD] Add random text. I'm so random."
-
-#git log --graph --oneline --all
+#git commit -a -m "[XKCD] fix monkey tacos joke"
+#git log --graph --oneline --all #the branches have diverged and will conflict
 
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
