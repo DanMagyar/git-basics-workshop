@@ -97,10 +97,15 @@ git log --graph --oneline --all
 
 #####################   PART 3 - merge, rebase  #####################
 #create branch that will be used to merge
-git checkout master -b master_after_merge
+git checkout master -b {merged}master
 #merge with default commit message
 git merge random_xkcd_improvement --no-edit
 
+
+git checkout random_xkcd_improvement  -b {rebased}random_xkcd_improvement
+git rebase master
+
+git diff {merged}master
 
 #####################   OPTIONAL path - conflict on master branch #####################
 #git checkout master
