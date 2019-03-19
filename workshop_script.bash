@@ -55,6 +55,8 @@ git log --graph --oneline --all
 git tag random_xkcd_v1.0
 git log --graph --oneline --all
 
+
+
 #####################   PART 2 - branches, tags  #####################
 git checkout -b random_xkcd_improvement
 git log # HEAD now points to new branch
@@ -91,6 +93,14 @@ EOF
 git commit -a -m "add text encouriging branch sync"
 #have a look at the the diverged branches
 git log --graph --oneline --all
+
+
+#####################   PART 3 - merge, rebase  #####################
+#create branch that will be used to merge
+git checkout master -b master_after_merge
+#merge with default commit message
+git merge random_xkcd_improvement --no-edit
+
 
 #####################   OPTIONAL path - conflict on master branch #####################
 #git checkout master
