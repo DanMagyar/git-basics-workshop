@@ -105,7 +105,13 @@ git merge random_xkcd_improvement --no-edit
 git checkout random_xkcd_improvement  -b {rebased}random_xkcd_improvement
 git rebase master
 
-git diff {merged}master
+#compare the rebased and merged branches --> no diff
+git diff {rebased}random_xkcd_improvement {merged}master
+#see what happened to master after the improvement branch got merged in --> all the changes from the improvement branch are present
+git diff master {merged}master
+#see what happened to the improvement branch after it
+git diff  random_xkcd_improvement {rebased}random_xkcd_improvement
+
 
 #####################   OPTIONAL path - conflict on master branch #####################
 #git checkout master
