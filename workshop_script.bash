@@ -113,7 +113,14 @@ git diff random_xkcd {rebased}random_xkcd
 
 
 #####################   PART 4 - RESET --hard  #####################
+git checkout master -b temp
+git log temp --oneline --graph
 
+git reset --hard random_xkcd
+git log temp --oneline --graph
+
+git reset --hard random_xkcd_v1.0
+git log temp --oneline --graph
 
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
