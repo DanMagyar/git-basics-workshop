@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 
 set -exu
-
+PS4='Line ${LINENO}: '
 #usage: bash workshop_script.bash
 
 #clean up repo
-TEST_REPO="${HOME}/workshops/bme-git-repo-test2"
+TEST_REPO="${HOME}/workshops/bme-git-repo-test"
 if [ -d "$TEST_REPO" ]; then
     rm -rf $TEST_REPO
 fi
@@ -22,21 +22,19 @@ git status #there is no changes in this directory
 
 #Create first commit
 cat <<EOF >text_file.txt
-Hello Git World!
-What a fine day to learn about git!
+Hello Git!
 EOF
 
 git status #there is a modified file
 git diff #there is the added line
 git add text_file.txt
 git status #there is a file that will be committed
-git commit --message='Say Hello to the world of git!'
+git commit --message='Say Hello to git!'
 git status #there is no changes here
 
 #Do a trivial second commit
 cat <<EOF >text_file.txt
-Good day Git World!
-What a fine day to learn about git!
+Good day Git!
 EOF
 git commit --all --message='Make greeting more polite'
 
@@ -44,7 +42,6 @@ git commit --all --message='Make greeting more polite'
 git log #HEAD: working tree, master: default branch referenced by HEAD
 git log --graph #draw a graph made of commit parent relations
 git log --graph --oneline --all # make it short
-#optional fancy stuff alias prettylog='git log --full-history --all --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 
 cat <<EOF >random_xkcd.txt
 - Monkey tacos! I'm so random!
@@ -52,13 +49,14 @@ EOF
 git stage random_xkcd.txt
 git commit -m "[XKCD] Some random xkcd joke"
 git log --graph --oneline --all
+git diff HEAD^ HEAD
 git tag random_xkcd_v1.0
 git log --graph --oneline --all
 
 
 
 #####################   PART 2 - branches, tags  #####################
-git checkout -b random_xkcd_improvement
+git checkout -b random_xkcd
 git log # HEAD now points to new branch
 
 #append another joke
@@ -87,8 +85,7 @@ git log --graph --oneline --all
 git checkout master
 cat <<EOF >text_file.txt
 Good day Git World!
-What a fine day to learn about git!
-Let's bring the changes from random_xkcd_improvement branch into master!
+Let's bring the changes from random_xkcd branch into master!
 EOF
 git commit -a -m "add text encouriging branch sync"
 #have a look at the the diverged branches
@@ -96,30 +93,27 @@ git log --graph --oneline --all
 
 
 #####################   PART 3 - merge, rebase  #####################
-#create branch that will be used to merge
+#merge using a dedicated branch
 git checkout master -b {merged}master
-#merge with default commit message
-git merge random_xkcd_improvement --no-edit
+git merge random_xkcd --no-edit
+git log {merged}master --graph --oneline
 
-
-git checkout random_xkcd_improvement  -b {rebased}random_xkcd_improvement
+#rebase using a dedicated branch
+git checkout random_xkcd -b {rebased}random_xkcd
 git rebase master
+git log {rebased}random_xkcd random_xkcd --graph --oneline
+
 
 #compare the rebased and merged branches --> no diff
-git diff {rebased}random_xkcd_improvement {merged}master
+git diff {rebased}random_xkcd {merged}master
 #see what happened to master after the improvement branch got merged in --> all the changes from the improvement branch are present
 git diff master {merged}master
 #see what happened to the improvement branch after it
-git diff  random_xkcd_improvement {rebased}random_xkcd_improvement
+git diff random_xkcd {rebased}random_xkcd
 
 
-#####################   OPTIONAL path - conflict on master branch #####################
-#git checkout master
-#cat <<EOF >>random_xkcd.txt
-#- 321645646546849889899684
-#EOF
-#git commit -a -m "[XKCD] fix monkey tacos joke"
-#git log --graph --oneline --all #the branches have diverged and will conflict
+#####################   PART 4 - RESET --hard  #####################
+
 
 #####################   OPTIONAL path - detached HEAD state #####################
 #git checkout $(git rev-parse HEAD)
@@ -137,3 +131,14 @@ git diff  random_xkcd_improvement {rebased}random_xkcd_improvement
 
 #####################   OPTIONAL path - reflog #####################
 #git reflog #see the movement of HEAD in chronological order, good for hunting down lost commits, recover resetted/deleted branches
+
+#####################   OPTIONAL path - very pretty log #####################
+#alias prettylog='git log --full-history --all --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
+
+#####################   OPTIONAL path - conflict on master branch #####################
+#git checkout master
+#cat <<EOF >>random_xkcd.txt
+#- 321645646546849889899684
+#EOF
+#git commit -a -m "[XKCD] fix monkey tacos joke"
+#git log --graph --oneline --all #the branches have diverged and will conflict
