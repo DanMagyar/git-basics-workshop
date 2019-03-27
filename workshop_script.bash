@@ -1,11 +1,17 @@
 #!/usr/bin/bash
 
-set -exu
-PS4='Line ${LINENO}: '
-#usage: bash workshop_script.bash
 
-#clean up repo
-TEST_REPO="${HOME}/workshops/bme-git-repo-test"
+
+if [ $# -ne 1 ];
+then
+  echo "FATAL: Insufficient arguments for the script"
+  echo "Usage: workshop_script.bash <directory_for_workshop_git_repo>"
+  echo "Example: bash workshop_script.bash ~/temp/workshops/bme-git-workshop"
+  exit 1
+fi
+
+#clean up repo if exists
+TEST_REPO="${1}"
 if [ -d "$TEST_REPO" ]; then
     rm -rf $TEST_REPO
 fi
