@@ -11,16 +11,25 @@ then
 fi
 
 #clean up repo if exists
-TEST_REPO="${1}"
-if [ -d "$TEST_REPO" ]; then
-    rm -rf $TEST_REPO
+#DELETE_WORKSPACE=${DELETE_WORKSPACE:-}
+WORKSPACE="${1}"
+if [ -d "$WORKSPACE" ]; then
+  if [ -z ${DELETE_WORKSPACE+x} ]; then
+    echo "Fatal: ${WORKSPACE} directory exists and DELETE_WORKSPACE env variable is not set, the script now exits. If you want the content of ${WORKSPACE} to be deleted, before rerunning the script, use:
+          export DELETE_WORKSPACE=true"
+    exit 2
+  fi
+  
+  echo "Deleting the content of ${WORKSPACE}"
+  rm -rf ${WORKSPACE}
+  echo "Creating empty directory ${WORKSPACE}"
 fi
 
 
 #####################   PART 1 - Repo, Working directory, HEAD, stage/add, diff, commit, log  #####################
 #every directory can be a git repository
-mkdir $TEST_REPO --parent
-cd $TEST_REPO || exit 1
+mkdir $WORKSPACE --parent
+cd $WORKSPACE || exit 1
 git init
 
 # Working tree: the currently checked out snapshot of the git repo
