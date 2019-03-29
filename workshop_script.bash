@@ -19,12 +19,14 @@ if [ -d "$WORKSPACE" ]; then
           export DELETE_WORKSPACE=true"
     exit 2
   fi
-  
+
   echo "Deleting the content of ${WORKSPACE}"
   rm -rf ${WORKSPACE}
   echo "Creating empty directory ${WORKSPACE}"
 fi
 
+set -exu
+PS4='Line ${LINENO}: '
 
 #####################   PART 1 - Repo, Working directory, HEAD, stage/add, diff, commit, log  #####################
 #every directory can be a git repository
